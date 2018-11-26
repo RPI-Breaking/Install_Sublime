@@ -112,7 +112,7 @@ then
         fi
 
 else
-        alias sublime="sudo schroot -p -c x86"
+        alias sublime="sudo schroot -c x86 -p"
         alias x86="schroot -c x86"
         alias rx86="sudo schroot -c x86"
 fi
@@ -166,34 +166,34 @@ sudo wget http://ftp.ca.debian.org/debian/pool/main/g/gcc-6/gcc-6-base_6.3.0-18+
 sudo wget http://ftp.ca.debian.org/debian/pool/main/g/gcc-6/libstdc++6_6.3.0-18+deb9u1_i386.deb
 sudo wget http://ftp.ca.debian.org/debian/pool/main/a/apt/libapt-inst2.0_1.4.8_i386.deb
 sudo wget http://ftp.ca.debian.org/debian/pool/main/a/apt/apt-utils_1.4.8_i386.deb
-sudo schroot -- dpkg -i --ignore-depends=apt *.deb
+sudo schroot -c x86 -- dpkg -i --ignore-depends=apt *.deb
 
 sudo sh -c 'echo "#! /bin/sh" > /x86/var/lib/dpkg/info/apt.postinst'
-sudo schroot -- dpkg --configure -a
+sudo schroot -c x86 -- dpkg --configure -a
 
 sudo apt-get install x11-xserver-utils
 xhost +
 
 echo "INSTALLING SUBLIME DEPENDANCIES"
-sudo schroot -- apt-get update
-sudo schroot -- apt-get --fix-broken --yes install
-sudo schroot -- apt-get --yes install libc6:i386 libstdc++6:i386 libglib2.0-0:i386 libx11-6:i386 libpangocairo-1.0-0:i386 libgtk2.0-0:i386 wget sudo nano locales
+sudo schroot -c x86 -- apt-get update
+sudo schroot -c x86 -- apt-get --fix-broken --yes install
+sudo schroot -c x86 -- apt-get --yes install libc6:i386 libstdc++6:i386 libglib2.0-0:i386 libx11-6:i386 libpangocairo-1.0-0:i386 libgtk2.0-0:i386 wget sudo nano locales
 sudo sh -c "echo '#! /bin/sh' > /x86/var/lib/dpkg/info/locales.postinst"
-sudo schroot -- dpkg --configure -a
+sudo schroot -c x86 -- dpkg --configure -a
 
-sudo schroot -- localedef -i en_CA -f UTF-8 en_CA.UTF-8
-sudo schroot -- echo LANG="en_CA.UTF-8" > /etc/locale.conf
+sudo schroot -c x86 -- localedef -i en_CA -f UTF-8 en_CA.UTF-8
+sudo schroot -c x86 -- echo LANG="en_CA.UTF-8" > /etc/locale.conf
 
 
 echo "INSTALLING SUBLIME"
 sudo wget https://download.sublimetext.com/sublime-text_build-3126_i386.deb
-sudo schroot -- dpkg -i sublime-text_build-3126_i386.deb
+sudo schroot -c x86 -- dpkg -i sublime-text_build-3126_i386.deb
 #fi
 
 sudo mkdir /sublime/
 
 sudo sh -c 'echo "#! /bin/bash" > /sublime/launch.sh'
-sudo sh -c 'echo "sudo schroot -p" >> /sublime/launch.sh'
+sudo sh -c 'echo "sudo schroot -c x86 -p" >> /sublime/launch.sh'
 sudo chmod a+x /sublime/launch.sh
 sudo wget https://www.sublimetext.com/images/icon.png
 sudo cp icon.png /sublime/
