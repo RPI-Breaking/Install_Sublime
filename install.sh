@@ -27,7 +27,6 @@ directory=/x86
 users=pi
 root-users=root
 preserve-environment=false
-aliases=default
 profile=default
 EOT
 sudo cp x86_temp /etc/schroot/chroot.d/
@@ -113,9 +112,9 @@ then
         fi
 
 else
-        alias sublime="sudo schroot -p"
-        alias x86="schroot"
-        alias rx86="sudo schroot"
+        alias sublime="sudo schroot -p -c x86"
+        alias x86="schroot -c x86"
+        alias rx86="sudo schroot -c x86"
 fi
 
 EOC
